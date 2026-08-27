@@ -1,4 +1,393 @@
 <!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus Analytics — Dashboard Ejecutivo</title>
+  <meta name="description" content="Dashboard moderno, responsivo y analítico para la gestión y visualización de métricas en tiempo real.">
+  
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome 6 (Icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- ================= SIDEBAR NAVIGATION ================= -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="#" class="brand-logo">
+          <div class="brand-icon">
+            <i class="fas fa-layer-group"></i>
+          </div>
+          <span>Nexus</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Principal</div>
+        <a href="#" class="nav-link active">
+          <i class="fas fa-chart-pie"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="#" class="nav-link">
+          <i class="fas fa-chart-line"></i>
+          <span>Analíticas</span>
+        </a>
+        <a href="#" class="nav-link">
+          <i class="fas fa-shopping-bag"></i>
+          <span>Ventas</span>
+          <span class="nav-badge">+12</span>
+        </a>
+        <a href="#" class="nav-link">
+          <i class="fas fa-users"></i>
+          <span>Clientes</span>
+        </a>
+
+        <div class="nav-section-title">Operaciones</div>
+        <a href="#" class="nav-link">
+          <i class="fas fa-wallet"></i>
+          <span>Finanzas</span>
+        </a>
+        <a href="#" class="nav-link">
+          <i class="fas fa-boxes-stacked"></i>
+          <span>Inventario</span>
+        </a>
+        <a href="#" class="nav-link">
+          <i class="fas fa-file-invoice-dollar"></i>
+          <span>Facturas</span>
+        </a>
+
+        <div class="nav-section-title">Sistema</div>
+        <a href="#" class="nav-link">
+          <i class="fas fa-sliders"></i>
+          <span>Ajustes</span>
+        </a>
+        <a href="#" class="nav-link">
+          <i class="fas fa-shield-halved"></i>
+          <span>Seguridad</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-card">
+          <div class="user-avatar">AD</div>
+          <div class="user-info">
+            <div class="user-name">Alex Dawson</div>
+            <div class="user-role">Product Admin</div>
+          </div>
+          <i class="fas fa-ellipsis-vertical" style="color: var(--text-muted); font-size: 0.85rem;"></i>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ================= MAIN CONTENT WRAPPER ================= -->
+    <div class="main-wrapper">
+      <!-- TOP NAVBAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle-btn" id="menu-toggle" aria-label="Alternar Menú">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="globalSearch" placeholder="Buscar métricas, clientes, reportes...">
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <button class="topbar-action-btn" id="refreshBtn" title="Actualizar Datos">
+            <i class="fas fa-arrows-rotate"></i>
+          </button>
+
+          <button class="topbar-action-btn" id="theme-toggle" title="Cambiar Tema">
+            <i class="fas fa-sun"></i>
+          </button>
+
+          <button class="topbar-action-btn" title="Notificaciones">
+            <i class="fas fa-bell"></i>
+            <span class="notification-dot"></span>
+          </button>
+
+          <button class="btn-primary" id="btnNewTransaction">
+            <i class="fas fa-plus"></i>
+            <span>Nuevo Registro</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- PAGE BODY -->
+      <main class="content-body">
+        <!-- Header & Title -->
+        <section class="dashboard-header">
+          <div>
+            <h1 class="welcome-title">Panel Ejecutivo & Analíticas</h1>
+            <p class="welcome-subtitle">Bienvenido de vuelta, Alex. Aquí tienes el resumen del rendimiento de tu negocio hoy.</p>
+          </div>
+          <div class="header-controls">
+            <select class="time-range-select" aria-label="Rango de fecha">
+              <option value="today">Hoy, 27 Ago 2026</option>
+              <option value="last-7">Últimos 7 días</option>
+              <option value="last-30" selected>Últimos 30 días</option>
+              <option value="year">Este año</option>
+            </select>
+          </div>
+        </section>
+
+        <!-- KPI Summary Cards -->
+        <section class="kpi-grid">
+          <!-- Card 1 -->
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-title">Ingresos Totales</span>
+              <div class="kpi-icon revenue">
+                <i class="fas fa-dollar-sign"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpi-revenue">$89,450.00</div>
+            <div class="kpi-footer">
+              <span class="trend-badge positive">
+                <i class="fas fa-arrow-trend-up"></i> +14.2%
+              </span>
+              <span class="trend-text">vs. mes anterior</span>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-title">Usuarios Activos</span>
+              <div class="kpi-icon users">
+                <i class="fas fa-users-viewfinder"></i>
+              </div>
+            </div>
+            <div class="kpi-value">24,520</div>
+            <div class="kpi-footer">
+              <span class="trend-badge positive">
+                <i class="fas fa-arrow-trend-up"></i> +8.6%
+              </span>
+              <span class="trend-text">vs. mes anterior</span>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-title">Nuevos Pedidos</span>
+              <div class="kpi-icon orders">
+                <i class="fas fa-cart-shopping"></i>
+              </div>
+            </div>
+            <div class="kpi-value">1,482</div>
+            <div class="kpi-footer">
+              <span class="trend-badge negative">
+                <i class="fas fa-arrow-trend-down"></i> -2.4%
+              </span>
+              <span class="trend-text">vs. semana pasada</span>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-title">Tasa de Conversión</span>
+              <div class="kpi-icon conversion">
+                <i class="fas fa-chart-simple"></i>
+              </div>
+            </div>
+            <div class="kpi-value">3.64%</div>
+            <div class="kpi-footer">
+              <span class="trend-badge positive">
+                <i class="fas fa-arrow-trend-up"></i> +0.8%
+              </span>
+              <span class="trend-text">vs. promedio</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Charts Section -->
+        <section class="charts-grid">
+          <!-- Main Area Chart -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title-group">
+                <h3>Tendencia de Ingresos & Objetivos</h3>
+                <p>Evolución de ventas comparada contra proyecciones</p>
+              </div>
+              <div class="chart-filter-pills">
+                <button class="pill-btn" data-range="day">Día</button>
+                <button class="pill-btn" data-range="week">Sem</button>
+                <button class="pill-btn" data-range="month">Mes</button>
+                <button class="pill-btn active" data-range="year">Año</button>
+              </div>
+            </div>
+            <div class="chart-canvas-container">
+              <canvas id="revenueChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Doughnut Traffic Chart -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title-group">
+                <h3>Fuentes de Tráfico</h3>
+                <p>Canales de adquisición de clientes</p>
+              </div>
+            </div>
+            <div class="chart-canvas-container">
+              <canvas id="trafficChart"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <!-- Bottom Grid: Recent Transactions & Activity Feed -->
+        <section class="bottom-grid">
+          <!-- Transactions Panel -->
+          <div class="card-panel">
+            <div class="panel-header">
+              <h3>Transacciones Recientes</h3>
+              <div class="panel-actions">
+                <input type="text" class="table-filter-input" id="tableSearchInput" placeholder="Filtrar clientes o planes...">
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="modern-table">
+                <thead>
+                  <tr>
+                    <th>Cliente</th>
+                    <th>Producto / Plan</th>
+                    <th>Monto</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody id="transactions-body">
+                  <!-- Populated by app.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Activity Feed -->
+          <div class="card-panel">
+            <div class="panel-header">
+              <h3>Actividad del Sistema</h3>
+              <i class="fas fa-bolt" style="color: var(--warning);"></i>
+            </div>
+
+            <div class="activity-list">
+              <div class="activity-item">
+                <div class="activity-icon-wrap" style="background: var(--primary-light); color: var(--primary);">
+                  <i class="fas fa-file-invoice"></i>
+                </div>
+                <div class="activity-info">
+                  <div class="activity-title">Factura #9021 generada</div>
+                  <div class="activity-time">Hace 12 minutos</div>
+                </div>
+              </div>
+
+              <div class="activity-item">
+                <div class="activity-icon-wrap" style="background: var(--success-light); color: var(--success);">
+                  <i class="fas fa-user-plus"></i>
+                </div>
+                <div class="activity-info">
+                  <div class="activity-title">Nuevo cliente registrado: Mariana Gómez</div>
+                  <div class="activity-time">Hace 45 minutos</div>
+                </div>
+              </div>
+
+              <div class="activity-item">
+                <div class="activity-icon-wrap" style="background: var(--info-light); color: var(--info);">
+                  <i class="fas fa-database"></i>
+                </div>
+                <div class="activity-info">
+                  <div class="activity-title">Copia de seguridad automática completada</div>
+                  <div class="activity-time">Hace 2 horas</div>
+                </div>
+              </div>
+
+              <div class="activity-item">
+                <div class="activity-icon-wrap" style="background: var(--warning-light); color: var(--warning);">
+                  <i class="fas fa-shield-halved"></i>
+                </div>
+                <div class="activity-info">
+                  <div class="activity-title">Intento de acceso bloqueado (IP: 192.168.1.1)</div>
+                  <div class="activity-time">Hace 5 horas</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: NUEVA TRANSACCIÓN ================= -->
+  <div class="modal-overlay" id="newTransactionModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Registrar Nueva Transacción</h3>
+        <button class="modal-close-btn" id="closeModalBtn">&times;</button>
+      </div>
+
+      <form id="newTransactionForm">
+        <div class="form-group">
+          <label for="custName">Nombre del Cliente</label>
+          <input type="text" id="custName" required placeholder="Ej: Gabriel Castro">
+        </div>
+
+        <div class="form-group">
+          <label for="custEmail">Correo Electrónico</label>
+          <input type="email" id="custEmail" required placeholder="gabriel@empresa.com">
+        </div>
+
+        <div class="form-group">
+          <label for="productSelect">Plan / Producto</label>
+          <select id="productSelect">
+            <option value="Enterprise Plan">Enterprise Plan</option>
+            <option value="Pro Subscription">Pro Subscription</option>
+            <option value="Basic Tier">Basic Tier</option>
+            <option value="Custom Integration">Custom Integration</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="amountInput">Monto ($ USD)</label>
+          <input type="number" id="amountInput" step="0.01" required placeholder="1499.00">
+        </div>
+
+        <div class="form-group">
+          <label for="statusSelect">Estado</label>
+          <select id="statusSelect">
+            <option value="completed">Completado</option>
+            <option value="pending">Pendiente</option>
+            <option value="cancelled">Cancelado</option>
+          </select>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="cancelModalBtn">Cancelar</button>
+          <button type="submit" class="btn-primary">Guardar Transacción</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Custom JS -->
+  <script src="app.js"></script>
+</body>
+</html>
 <html lang="en">
 
 <head>
